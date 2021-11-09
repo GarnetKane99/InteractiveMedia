@@ -1,20 +1,16 @@
-Button AudioVis, TypographyVis, DrawingVis, 
-  InteractiveExp;
+Button AudioVis, ImageManipulation, DrawingVis, InteractiveExp;
 ControlP5 Controller;
 
-void UISetup()
-{
-
-
+void UISetup() {
   AudioVis = Controller.addButton("AudioVisualisation")
     .setPosition(width/6, height/2 - 240)
     .setCaptionLabel("Audio Visualisation")
     .setFont(calibri)
     .setSize(300, 60);
 
-  TypographyVis = Controller.addButton("TypographyVisualisation")
+  ImageManipulation = Controller.addButton("ImageVisualisation")
     .setPosition(width/6, height/2 - 120)
-    .setCaptionLabel("Typography Visualisation")
+    .setCaptionLabel("Image Manipulation")
     .setFont(calibri)
     .setSize(300, 60);
 
@@ -34,18 +30,36 @@ void UISetup()
 void AudioVisualisation() {
   background(255);
   hideUI();
-
-  setupAudio();
+  AudioMode = true;
+  if (!hasSetupAudio) {
+    setupAudio();
+  } else {
+    showAudioUI();
+    unpauseInstruments();
+  }
 }
 
-void hideUI()
-{
+void ImageVisualisation() {
+  background(255);
+  hideUI();
+  ImageMode = true;
+  if (!hasSetupImage) {
+    setupImage();
+  } else {
+    //reset image things
+  }
+}
+
+void hideUI() {
   AudioVis.hide();
-  TypographyVis.hide();
+  ImageManipulation.hide();
   DrawingVis.hide();
   InteractiveExp.hide();
 }
 
-void showUI()
-{
+void showUI() {
+  AudioVis.show();
+  ImageManipulation.show();
+  DrawingVis.show();
+  InteractiveExp.show();
 }
