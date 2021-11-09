@@ -1,11 +1,12 @@
 boolean hasSetupImage = false, canDraw = false;
-PImage UTSBuilding11, Harbour, Opera;
+PImage UTSBuilding11, Harbour, Opera, Skyline;
 Walker[] walkersInScene = new Walker[200];
 
 AudioContext imageAudio;
 ControlP5 ImageController;
-Button Building11, HarbourBridge, OperaHouse, ImageBack;
-boolean b11 = false, hb = false, oh = false;
+Button Building11, HarbourBridge, OperaHouse, SydneyHarbour;
+Button pageNext, pageBack, ImageBack;
+boolean b11 = false, hb = false, oh = false, sh = false;
 
 void setupImage() {
   ImageController = new ControlP5(this);
@@ -18,41 +19,56 @@ void setupImage() {
 }
 
 void ImageUISetup() {
+  drawBook();
+
+  fill(255);
+  textFont(ImageChoose);
+  text("CHOOSE AN IMAGE!", width/8+50, height/2-250);
+
   Building11 = ImageController.addButton("building11")
-    .setPosition(width/3 - 200, height/2)
-    .setFont(Bahnschrift)
-    .setColorBackground(0xff660000)
+    .setPosition(width/8+125, height/2-200)
+    .setFont(ImageFont)
+    .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
-    .setSize(200, 75)
+    .setSize(350, 75)
     .setCaptionLabel("Building 11");
 
   HarbourBridge = ImageController.addButton("harbourBridge")
-    .setPosition(width/2-100, height/2)
-    .setFont(Bahnschrift)
-    .setColorBackground(0xff660000)
+    .setPosition(width/8+125, height/2-50)
+    .setFont(ImageFont)
+    .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
-    .setSize(200, 75)
+    .setSize(350, 75)
     .setCaptionLabel("Harbour Bridge");
 
   OperaHouse = ImageController.addButton("operaHouse")
-    .setPosition(width/2+300, height/2)
-    .setFont(Bahnschrift)
-    .setColorBackground(0xff660000)
+    .setPosition(width/8+125, height/2+100)
+    .setFont(ImageFont)
+    .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
-    .setSize(200, 75)
+    .setSize(350, 75)
     .setCaptionLabel("Opera House");
 
+  SydneyHarbour = ImageController.addButton("sydHarbour")
+    .setPosition(width/2+100, height/2 -200)
+    .setFont(ImageFont)
+    .setColorBackground(#D6A965)
+    .setColorForeground(0xffaa0000)
+    .setColorActive(0xffff0000)
+    .setSize(350, 75)
+    .setCaptionLabel("Sydney Skyline");
+
   ImageBack = ImageController.addButton("imageBack")
-    .setPosition(width/2-90, height - 100)
+    .setPosition(width/2+400, 150)
     .setFont(Bahnschrift)
-    .setColorBackground(0xff660000)
+    .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
     .setCaptionLabel("BACK TO MENU")
-    .setSize(200, 75);
+    .setSize(150, 75);
 }
 
 void building11() {
@@ -82,6 +98,15 @@ void operaHouse() {
   canDraw = true;
 }
 
+void sydHarbour() {
+  sh = true;
+  HideImageUI(false);
+  background(255);
+  Skyline = loadImage(sketchPath("Images/")+"SydneyHarbour.jpg");
+  Skyline.loadPixels();
+  canDraw = true;
+}
+
 void imageBack() {
   HideImageUI(true);
   background(255);
@@ -98,10 +123,12 @@ void HideImageUI(boolean back) {
     b11 = false;
     hb = false;
     oh = false;
+    sh = false;
   }
   Building11.hide();
   HarbourBridge.hide();
   OperaHouse.hide();
+  SydneyHarbour.hide();
 }
 
 void DrawImage()
@@ -113,7 +140,7 @@ void DrawImage()
     tempWalker.CurrentPos.x += cos(tempWalker.angle) * tempWalker.radius;
     tempWalker.CurrentPos.y += sin(tempWalker.angle) * tempWalker.radius;
 
-    if (brightness(imageReturn().get((int)round(tempWalker.CurrentPos.x), (int)round(tempWalker.CurrentPos.y))) > 70 || tempWalker.CurrentPos.x < 0
+    if (brightness(imageReturn().get((int)round(tempWalker.CurrentPos.x), (int)round(tempWalker.CurrentPos.y))) > 100 || tempWalker.CurrentPos.x < 0
       || tempWalker.CurrentPos.x > width || tempWalker.CurrentPos.y < 0 || tempWalker.CurrentPos.y > height)
     {
       tempWalker.DirectionToGo *= -1;
@@ -133,6 +160,8 @@ PImage imageReturn() {
     return UTSBuilding11;
   else if (hb)
     return Harbour;
+  else if (sh)
+    return Skyline;
   else
     return Opera;
 }

@@ -1,5 +1,5 @@
 //class specifically for all the audio data vis things
-AudioContext ac;
+AudioContext drumAC, bassAC, guitarAC, keysAC;
 SamplePlayer drums1, drums2, drums3, bass1, bass2, bass3, guitar1, guitar2, guitar3, keys1, keys2, keys3;
 WavePlayer drums1A;
 Gain drumsGain, bassGain, guitarGain, keysGain;
@@ -20,22 +20,25 @@ void setupAudio() {
   drumsLevel = 50;
   guitarLevel =50;
 
-  ac = new AudioContext();
+  drumAC = new AudioContext();
+  bassAC = new AudioContext();
+  guitarAC = new AudioContext();
+  keysAC = new AudioContext();
   audioController = new ControlP5(this);
 
   try {
-    drums1 =  new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Drums1.mp3"));
-    drums2 =  new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Drums2.mp3"));
-    drums3 =  new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Drums3.mp3"));
-    bass1 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Bass1.mp3"));
-    bass2 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Bass2.mp3"));
-    bass3 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Bass3.mp3"));
-    guitar1 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Guitar1.mp3"));
-    guitar2 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Guitar2.mp3"));
-    guitar3 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Guitar3.mp3"));
-    keys1 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Keys1.mp3"));
-    keys2 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Keys2.mp3"));
-    keys3 = new SamplePlayer(ac, new Sample(sketchPath("Audio/") + "Keys3.mp3"));
+    drums1 =  new SamplePlayer(drumAC, new Sample(sketchPath("Audio/") + "Drums1.mp3"));
+    drums2 =  new SamplePlayer(drumAC, new Sample(sketchPath("Audio/") + "Drums2.mp3"));
+    drums3 =  new SamplePlayer(drumAC, new Sample(sketchPath("Audio/") + "Drums3.mp3"));
+    bass1 = new SamplePlayer(bassAC, new Sample(sketchPath("Audio/") + "Bass1.mp3"));
+    bass2 = new SamplePlayer(bassAC, new Sample(sketchPath("Audio/") + "Bass2.mp3"));
+    bass3 = new SamplePlayer(bassAC, new Sample(sketchPath("Audio/") + "Bass3.mp3"));
+    guitar1 = new SamplePlayer(guitarAC, new Sample(sketchPath("Audio/") + "Guitar1.mp3"));
+    guitar2 = new SamplePlayer(guitarAC, new Sample(sketchPath("Audio/") + "Guitar2.mp3"));
+    guitar3 = new SamplePlayer(guitarAC, new Sample(sketchPath("Audio/") + "Guitar3.mp3"));
+    keys1 = new SamplePlayer(keysAC, new Sample(sketchPath("Audio/") + "Keys1.mp3"));
+    keys2 = new SamplePlayer(keysAC, new Sample(sketchPath("Audio/") + "Keys2.mp3"));
+    keys3 = new SamplePlayer(keysAC, new Sample(sketchPath("Audio/") + "Keys3.mp3"));
   }
   catch(Exception E) {
     println("Attempting to load file");
@@ -56,15 +59,15 @@ void setupAudio() {
   keys3.setKillOnEnd(false);
 
   //audio setup
-  drumsValue = new Glide(ac, 1, 0);
-  bassValue = new Glide(ac, 1, 0);
-  guitarValue = new Glide(ac, 1, 0);
-  keysValue = new Glide(ac, 1, 0);
+  drumsValue = new Glide(drumAC, 1, 0);
+  bassValue = new Glide(bassAC, 1, 0);
+  guitarValue = new Glide(guitarAC, 1, 0);
+  keysValue = new Glide(keysAC, 1, 0);
 
-  drumsGain = new Gain(ac, 1, drumsValue);
-  bassGain = new Gain(ac, 1, bassValue);
-  guitarGain = new Gain(ac, 1, guitarValue);
-  keysGain = new Gain(ac, 1, keysValue);
+  drumsGain = new Gain(drumAC, 1, drumsValue);
+  bassGain = new Gain(bassAC, 1, bassValue);
+  guitarGain = new Gain(guitarAC, 1, guitarValue);
+  keysGain = new Gain(keysAC, 1, keysValue);
 
   drumsGain.addInput(drums1);
   bassGain.addInput(bass1);
@@ -91,11 +94,14 @@ void setupAudio() {
   keys2.pause(true);
   keys3.pause(true);
 
-  ac.out.addInput(drumsGain);
-  ac.out.addInput(bassGain);
-  ac.out.addInput(guitarGain);
-  ac.out.addInput(keysGain);
-  ac.start();
+  drumAC.out.addInput(drumsGain);
+  bassAC.out.addInput(bassGain);
+  guitarAC.out.addInput(guitarGain);
+  keysAC.out.addInput(keysGain);
+  drumAC.start();
+  bassAC.start();
+  guitarAC.start();
+  keysAC.start();
   GetInstruments();
   AudioUISetup();
   hasSetupAudio = true;
@@ -115,23 +121,26 @@ void UpdateInstruments() {
   bassValue.setValue(bassLevel/10);
   keysValue.setValue(keysLevel/10);
   guitarValue.setValue(guitarLevel/10);
-  float offSet = (float)((1+ac.out.getValue()));
+  float drumOffset = (float)((1+drumAC.out.getValue()));
+  float bassOffset = (float)((1+bassAC.out.getValue()));
+  float guitarOffset = (float)((1+guitarAC.out.getValue()));
+  float keysOffset = (float)((1+keysAC.out.getValue()));
 
   imageMode(CENTER);
   if (drumsLevel > 1)
-    image(drumsImg, 650, 50, drumsLevel * 2 + (offSet * 30), drumsLevel * 2 + (offSet * 30));
+    image(drumsImg, 650, 50, drumsLevel * 2 + (drumOffset * 30), drumsLevel * 2 + (drumOffset * 30));
   else
     image(drumsImg, 650, 50, 0, 0);
   if (bassLevel > 1)
-    image(bassImg, 650, 250, bassLevel * 2 + (offSet * 30), bassLevel * 2 + (offSet * 30));
+    image(bassImg, 650, 250, bassLevel * 2 + (bassOffset * 30), bassLevel * 2 + (bassOffset * 30));
   else
     image(bassImg, 650, 250, 0, 0);
   if (guitarLevel > 1)
-    image(guitarImg, 650, 450, guitarLevel * 2 + (offSet * 30), guitarLevel * 2 + (offSet * 30));
+    image(guitarImg, 650, 450, guitarLevel * 2 + (guitarOffset * 30), guitarLevel * 2 + (guitarOffset * 30));
   else
     image(guitarImg, 650, 450, 0, 0);
   if (keysLevel > 1)
-    image(keysImg, 650, 650, keysLevel * 2 + (offSet * 30), keysLevel * 2 + (offSet * 30));
+    image(keysImg, 650, 650, keysLevel * 2 + (keysOffset * 30), keysLevel * 2 + (keysOffset * 30));
   else
     image(keysImg, 650, 650, 0, 0);
 }
