@@ -21,7 +21,7 @@ void UISetup() {
     .setCaptionLabel("Optical Illusions")
     .setColorBackground(#D6A965)
     .setFont(Chimken)
-    .setSize(525, 60);
+    .setSize(450, 60);
 
   CamFilter = Controller.addButton("CameraFilters")
     .setPosition(width/2+100, height/2 -200)

@@ -44,8 +44,8 @@ void showTitle() {
   fill(0);
   textFont(titleFont);
   text("Welcome to my project!", width/2-180, height/2-250);
-  text("My name is Jake. This is my project for Interactive Media. This project", 250, height/2-150);
-  text("utilises data in various mediums for a more interesting experience.", 250, height/2-100);
+  text("My name is Jake. This is my project for Interactive Media. This project utilises", 250, height/2-150);
+  text("data in various mediums for a (hopefully) more interesting experience.", 250, height/2-100);
   text("In this project, you will find things like:", 250, height/2);
   text("- Image Manipulation", 250, height/2+50);
   text("- Audio Sampling", 250, height/2+100);
@@ -81,7 +81,6 @@ void draw() {
 }
 
 void drawBook() {
-  noFill();
   stroke(0, 0, 0);
   strokeWeight(4);
 
@@ -134,4 +133,24 @@ void drawBook() {
   endShape();
 
   line(width/2, 100, width/2, height-50);
+
+  //random page lines
+  randomPages();
+}
+
+void randomPages() {
+  strokeWeight(1);
+  //left side
+  for (int i = 0; i < 50; i++) {
+    int randX = (int)random(0, 50);
+    int randYStart = (int)random(300, height-100);
+    int randYEnd = (int)random(randYStart-random(0, 200), randYStart);
+    line(width/8-randX, randYStart, width/8-randX, randYEnd);
+  }
+  for (int i = 0; i < 50; i++) {
+    int randX = (int)random(0, 50);
+    int randYStart =(int) random(300, height-100);
+    int randYEnd = (int) random(randYStart-random(0, 200), randYStart);
+    line(width-(width/8)+randX, randYStart, width-(width/8)+randX, randYEnd);
+  }
 }
