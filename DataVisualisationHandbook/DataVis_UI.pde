@@ -30,7 +30,7 @@ void UISetup() {
     .setFont(Chimken)
     .setSize(400, 60);
 
-  Drawing = Controller.addButton("Drawing")
+  Drawing = Controller.addButton("drawing")
     .setPosition(width/2+100, height/2-50)
     .setCaptionLabel("Drawing")
     .setColorBackground(#D6A965)
@@ -55,8 +55,10 @@ void AudioVisualisation() {
   AudioMode = true;
   if (!hasSetupAudio) {
     setupAudio();
+    drawBook();
   } else {
     showAudioUI();
+    drawBook();
     unpauseInstruments();
   }
 }
@@ -67,6 +69,35 @@ void ImageVisualisation() {
   ImageMode = true;
   if (!hasSetupImage) {
     setupImage();
+  }
+}
+
+void CameraFilters() {
+  background(255);
+  hideUI();
+  CameraMode = true;
+  if (!hasSetupCam) {
+    setupCam();
+  } else {
+    showCamUI();
+  }
+}
+
+void drawing() {
+  background(255);
+  hideUI();
+  DrawingMode = true;
+  if (!hasSetupCanvas) {
+    setupCanvas();
+  }
+}
+
+void OpticalIllusions(){
+  background(255);
+  hideUI();
+  IllusionMode = true;
+  if(!hasSetupIllusions){
+   setupIllusions(); 
   }
 }
 

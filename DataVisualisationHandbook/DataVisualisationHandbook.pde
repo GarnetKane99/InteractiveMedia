@@ -1,13 +1,15 @@
 import beads.*;
 import controlP5.*;
+import processing.video.*;
 
 Button Continue;
-
 ControlFont calibri, Bahnschrift;
+PFont titleFont, Chunkeh, Chimken, Glossary, ImageChoose, ImageFont, BeatsBook, InstrumentsFont, AudioSelectorFont, 
+  CamFilterFont, CamTitleFont, ColourPalette, DrawFont;
 
-PFont titleFont, Chunkeh, Chimken, Glossary, ImageChoose, ImageFont;
+boolean Menu = true, AudioMode = false, ImageMode = false, CameraMode = false, DrawingMode = false, IllusionMode = false;
 
-boolean Menu = true, AudioMode = false, ImageMode = false;
+int numOne;
 
 void setup() {
   Controller = new ControlP5(this);
@@ -24,6 +26,13 @@ void createFonts() {
   Glossary = loadFont("Glossary.vlw");
   ImageChoose = loadFont("ImageChoose.vlw");
   ImageFont = loadFont("ImageFont.vlw");
+  BeatsBook = loadFont("BeatsBook.vlw");
+  CamFilterFont = loadFont("CamFilter.vlw");
+  CamTitleFont = loadFont("CameraFont.vlw");
+  ColourPalette = loadFont("Colours.vlw");
+  DrawFont = loadFont("DrawFont.vlw");
+  AudioSelectorFont = loadFont("InstrumentsFont.vlw");
+  InstrumentsFont = loadFont("InstrumentsFont1.vlw");
   calibri = new ControlFont(createFont("calibri", 20));
   Bahnschrift = new ControlFont(createFont("Bahnschrift", 20));
 }
@@ -48,7 +57,7 @@ void showTitle() {
   text("data in various mediums for a (hopefully) more interesting experience.", 250, height/2-100);
   text("In this project, you will find things like:", 250, height/2);
   text("- Image Manipulation", 250, height/2+50);
-  text("- Audio Sampling", 250, height/2+100);
+  text("- Audio Synthesis", 250, height/2+100);
   text("- Data Visualisation from UTS research", 250, height/2+150);
   text("- and much more!", 250, height/2+200);
   text("I hope you enjoy your stay! Press 'CONTINUE' -> to proceed", 250, height/2+300);
@@ -70,13 +79,20 @@ void ContinueClicked() {
 }
 
 void draw() {
-  if (AudioMode)
-  {
+  if (AudioMode) {
     UpdateInstruments();
   }
-  if (canDraw)
-  {
+  if (canDraw) {
     DrawImage();
+  }
+  if (CameraMode) {
+    drawCam();
+  }
+  if (DrawingMode) {
+    drawingOnCanvas();
+  }
+  if (IllusionMode){
+    illusionDraw(); 
   }
 }
 
@@ -140,7 +156,7 @@ void drawBook() {
 
 void randomPages() {
   strokeWeight(1);
-  //left side
+  
   for (int i = 0; i < 50; i++) {
     int randX = (int)random(0, 50);
     int randYStart = (int)random(300, height-100);

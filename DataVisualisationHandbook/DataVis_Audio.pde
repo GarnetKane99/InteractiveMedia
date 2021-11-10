@@ -46,17 +46,29 @@ void setupAudio() {
 
   //so that instruments can loop
   drums1.setKillOnEnd(false);
+  drums1.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   drums2.setKillOnEnd(false);
+  drums2.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   drums3.setKillOnEnd(false);
+  drums3.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   bass1.setKillOnEnd(false);
+  bass1.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   bass2.setKillOnEnd(false);
+  bass2.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   bass3.setKillOnEnd(false);
+  bass3.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   guitar1.setKillOnEnd(false);
+  guitar1.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   guitar2.setKillOnEnd(false);
+  guitar2.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   guitar3.setKillOnEnd(false);
+  guitar3.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   keys1.setKillOnEnd(false);
+  keys1.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   keys2.setKillOnEnd(false);
+  keys2.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   keys3.setKillOnEnd(false);
+  keys3.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
 
   //audio setup
   drumsValue = new Glide(drumAC, 1, 0);
@@ -116,7 +128,7 @@ void GetInstruments()
 }
 
 void UpdateInstruments() {
-  background(255);
+  AudioBook();
   drumsValue.setValue(drumsLevel/10);
   bassValue.setValue(bassLevel/10);
   keysValue.setValue(keysLevel/10);
@@ -128,100 +140,207 @@ void UpdateInstruments() {
 
   imageMode(CENTER);
   if (drumsLevel > 1)
-    image(drumsImg, 650, 50, drumsLevel * 2 + (drumOffset * 30), drumsLevel * 2 + (drumOffset * 30));
+    image(drumsImg, width/8+150, height/2-200, drumsLevel * 2 + (drumOffset * 30), drumsLevel * 2 + (drumOffset * 30));
   else
-    image(drumsImg, 650, 50, 0, 0);
+    image(drumsImg, width/8+150, height/2-200, 0, 0);
   if (bassLevel > 1)
     image(bassImg, 650, 250, bassLevel * 2 + (bassOffset * 30), bassLevel * 2 + (bassOffset * 30));
   else
     image(bassImg, 650, 250, 0, 0);
   if (guitarLevel > 1)
-    image(guitarImg, 650, 450, guitarLevel * 2 + (guitarOffset * 30), guitarLevel * 2 + (guitarOffset * 30));
+    image(guitarImg, width/8+150, height/2+100, guitarLevel * 2 + (guitarOffset * 30), guitarLevel * 2 + (guitarOffset * 30));
   else
-    image(guitarImg, 650, 450, 0, 0);
+    image(guitarImg, width/8+150, height/2+100, 0, 0);
   if (keysLevel > 1)
-    image(keysImg, 650, 650, keysLevel * 2 + (keysOffset * 30), keysLevel * 2 + (keysOffset * 30));
+    image(keysImg, 650, height/2+100, keysLevel * 2 + (keysOffset * 30), keysLevel * 2 + (keysOffset * 30));
   else
-    image(keysImg, 650, 650, 0, 0);
+    image(keysImg, 650, height/2+100, 0, 0);
+}
+
+void AudioBook() {
+  fill(0);
+  strokeWeight(2);
+  textFont(BeatsBook);
+  text("Beats Book!", width/2+100, height/2-300);
+
+  textFont(InstrumentsFont);
+  text("Drums:", width/2+50, height/2-200);
+  text("Bass:", width/2+50, height/2-50);
+  text("Guitar:", width/2+50, height/2+100);
+  text("Keys:", width/2+50, height/2+250);
+
+  stroke(0, 0, 0);
+  strokeWeight(4);
+
+  beginShape();
+  fill(#D6A965);
+  vertex(width/2, 100);
+  bezierVertex(width/2, 10, width/6, 100, width/8, 100);
+  vertex(width/8, 100);
+  vertex(width/8, height-100);
+  bezierVertex(width/6, height-100, width/2, height-180, width/2, height-50);
+  endShape();
+
+  line(width/2, 100, width/2, height-50);
 }
 
 void AudioUISetup() {
   drumB1 = audioController.addButton("DrumBeat1")
-    .setPosition(50, 50)
-    .setSize(50, 50);
+    .setPosition(width/2+200, height/2-235)
+    .setCaptionLabel("D1")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   drumB2 = audioController.addButton("DrumBeat2")
-    .setPosition(150, 50)
-    .setSize(50, 50);
+    .setPosition(width/2+300, height/2-235)
+    .setCaptionLabel("D2")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   drumB3 = audioController.addButton("DrumBeat3")
-    .setPosition(250, 50)
-    .setSize(50, 50);
+    .setPosition(width/2+400, height/2-235)
+    .setCaptionLabel("D3")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   drumsOut = audioController.addKnob("drumsControl")
-    .setPosition(width-250, 50)
+    .setPosition(width/2+490, height/2-275)
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(#4B2448)
     .setSize(100, 100)
     .setRange(-50, 50);
   drumsOut.getValueLabel().setVisible(false);
+  drumsOut.getCaptionLabel().setVisible(false);
 
   bassB1 = audioController.addButton("BassBeat1")
-    .setPosition(50, 250)
-    .setSize(50, 50);
+    .setPosition(width/2+200, height/2-85)
+    .setCaptionLabel("B1")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   bassB2 = audioController.addButton("BassBeat2")
-    .setPosition(150, 250)
-    .setSize(50, 50);
+    .setPosition(width/2+300, height/2-85)
+    .setCaptionLabel("B2")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   bassB3 = audioController.addButton("BassBeat3")
-    .setPosition(250, 250)
-    .setSize(50, 50);
+    .setPosition(width/2+400, height/2-85)
+    .setCaptionLabel("B3")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   bassOut = audioController.addKnob("bassControl")
-    .setPosition(width-250, 250)
+    .setPosition(width/2+490, height/2-125)
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(#4B2448)
     .setSize(100, 100)
     .setRange(-50, 50);
   bassOut.getValueLabel().setVisible(false);
+  bassOut.getCaptionLabel().setVisible(false);
 
   guitarB1 = audioController.addButton("GuitarBeat1")
-    .setPosition(50, 450)
-    .setSize(50, 50);
+    .setPosition(width/2+200, height/2+60)
+    .setCaptionLabel("G1")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   guitarB2 = audioController.addButton("GuitarBeat2")
-    .setPosition(150, 450)
-    .setSize(50, 50);
+    .setPosition(width/2+300, height/2+60)
+    .setCaptionLabel("G2")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   guitarB3 = audioController.addButton("GuitarBeat3")
-    .setPosition(250, 450)
-    .setSize(50, 50);
+    .setPosition(width/2+400, height/2+60)
+    .setCaptionLabel("G3")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   guitarOut = audioController.addKnob("guitarControl")
-    .setPosition(width-250, 450)
+    .setPosition(width/2+490, height/2+25)
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(#4B2448)
     .setSize(100, 100)
     .setRange(-50, 50);
   guitarOut.getValueLabel().setVisible(false);
+  guitarOut.getCaptionLabel().setVisible(false);
 
   keysB1 = audioController.addButton("KeysBeat1")
-    .setPosition(50, 650)
-    .setSize(50, 50);
+    .setPosition(width/2+200, height/2+210)
+    .setCaptionLabel("K1")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   keysB2 = audioController.addButton("KeysBeat2")
-    .setPosition(150, 650)
-    .setSize(50, 50);
+    .setPosition(width/2+300, height/2+210)
+    .setCaptionLabel("K2")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   keysB3 = audioController.addButton("KeysBeat3")
-    .setPosition(250, 650)
-    .setSize(50, 50);
+    .setPosition(width/2+400, height/2+210)
+    .setCaptionLabel("K3")
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(0)
+    .setFont(AudioSelectorFont)
+    .setSize(75, 50);
 
   keysOut = audioController.addKnob("keysControl")
-    .setPosition(width-250, 650)
+    .setPosition(width/2+490, height/2+175)
+    .setColorForeground(#E06DD9)
+    .setColorBackground(#833E7F)
+    .setColorActive(#4B2448)
     .setSize(100, 100)
     .setRange(-50, 50);
   keysOut.getValueLabel().setVisible(false);
+  keysOut.getCaptionLabel().setVisible(false);
 
   audioBack = audioController.addButton("AudioBack")
-    .setPosition(width/2, height - 100)
+    .setPosition(225, height - 200)
+    .setColorBackground(#D6A965)
+    .setColorForeground(0xffaa0000)
+    .setColorActive(0xffff0000)
+    .setFont(Bahnschrift)
     .setCaptionLabel("BACK TO MENU")
-    .setSize(75, 75);
+    .setSize(150, 75);
 }
 
 void keysControl() {

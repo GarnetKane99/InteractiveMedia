@@ -5,6 +5,7 @@ Walker[] walkersInScene = new Walker[200];
 AudioContext imageAudio;
 ControlP5 ImageController;
 Button Building11, HarbourBridge, OperaHouse, SydneyHarbour;
+//maybe delete pageNext/pageBack
 Button pageNext, pageBack, ImageBack;
 boolean b11 = false, hb = false, oh = false, sh = false;
 
@@ -31,7 +32,7 @@ void ImageUISetup() {
     .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
-    .setSize(350, 75)
+    .setSize(250, 75)
     .setCaptionLabel("Building 11");
 
   HarbourBridge = ImageController.addButton("harbourBridge")
@@ -40,7 +41,7 @@ void ImageUISetup() {
     .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
-    .setSize(350, 75)
+    .setSize(375, 75)
     .setCaptionLabel("Harbour Bridge");
 
   OperaHouse = ImageController.addButton("operaHouse")
@@ -49,7 +50,7 @@ void ImageUISetup() {
     .setColorBackground(#D6A965)
     .setColorForeground(0xffaa0000)
     .setColorActive(0xffff0000)
-    .setSize(350, 75)
+    .setSize(300, 75)
     .setCaptionLabel("Opera House");
 
   SydneyHarbour = ImageController.addButton("sydHarbour")
@@ -147,7 +148,7 @@ void DrawImage()
       tempWalker.radius = random(3, 10);
       tempWalker.angle += PI;
     }
-
+    strokeWeight(2);
     stroke(imageReturn().get((int)tempWalker.CurrentPos.x, (int)tempWalker.CurrentPos.y));
     line(tempWalker.PreviousPos.x, tempWalker.PreviousPos.y, tempWalker.CurrentPos.x, tempWalker.CurrentPos.y);
     tempWalker.PreviousPos.x = tempWalker.CurrentPos.x;
