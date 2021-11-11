@@ -150,6 +150,10 @@ void LiveDataBack() {
   hideLiveDataUI();
   background(255);
   DataMode = false;
+  curDay = 0;
+  prevDay = 0;
+  curDayText = "MONDAY";
+  prevDayText = "MONDAY";
   drawBook();
   showUI();
 }
