@@ -37,7 +37,7 @@ void UISetup() {
     .setFont(Chimken)
     .setSize(250, 60);
 
-  LiveData = Controller.addButton("LiveData")
+  LiveData = Controller.addButton("liveData")
     .setPosition(width/2+100, height/2+100)
     .setCaptionLabel("Live Data")
     .setColorBackground(#D6A965)
@@ -92,12 +92,23 @@ void drawing() {
   }
 }
 
-void OpticalIllusions(){
+void OpticalIllusions() {
   background(255);
   hideUI();
   IllusionMode = true;
-  if(!hasSetupIllusions){
-   setupIllusions(); 
+  if (!hasSetupIllusions) {
+    setupIllusions();
+  }
+}
+
+void liveData() {
+  background(255);
+  hideUI();
+  DataMode = true;
+  if (!hasSetupLiveData) {
+    setupLiveData();
+  } else {
+    showLiveDataUI();
   }
 }
 

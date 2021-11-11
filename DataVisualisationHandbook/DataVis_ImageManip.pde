@@ -1,13 +1,12 @@
 boolean hasSetupImage = false, canDraw = false;
-PImage UTSBuilding11, Harbour, Opera, Skyline;
+PImage UTSBuilding11, Harbour, Opera, Skyline, DHarbour, LPark;
 Walker[] walkersInScene = new Walker[200];
 
 AudioContext imageAudio;
 ControlP5 ImageController;
-Button Building11, HarbourBridge, OperaHouse, SydneyHarbour;
-//maybe delete pageNext/pageBack
-Button pageNext, pageBack, ImageBack;
-boolean b11 = false, hb = false, oh = false, sh = false;
+Button Building11, HarbourBridge, OperaHouse, SydneyHarbour, DarlingHarbour, LunaPark;
+Button ImageBack;
+boolean b11 = false, hb = false, oh = false, sh = false, dh = false, lp = false;
 
 void setupImage() {
   ImageController = new ControlP5(this);
@@ -62,6 +61,24 @@ void ImageUISetup() {
     .setSize(350, 75)
     .setCaptionLabel("Sydney Skyline");
 
+  DarlingHarbour = ImageController.addButton("darlingHarbour")
+    .setPosition(width/2+100, height/2-50)
+    .setFont(ImageFont)
+    .setColorBackground(#D6A965)
+    .setColorForeground(0xffaa0000)
+    .setColorActive(0xffff0000)
+    .setSize(400, 75)
+    .setCaptionLabel("Darling Harbour");
+
+  LunaPark = ImageController.addButton("lunaPark")
+    .setPosition(width/2+100, height/2+100)
+    .setFont(ImageFont)
+    .setColorBackground(#D6A965)
+    .setColorForeground(0xffaa0000)
+    .setColorActive(0xffff0000)
+    .setSize(275, 75)
+    .setCaptionLabel("Luna Park");
+
   ImageBack = ImageController.addButton("imageBack")
     .setPosition(width/2+400, 150)
     .setFont(Bahnschrift)
@@ -108,6 +125,24 @@ void sydHarbour() {
   canDraw = true;
 }
 
+void lunaPark() {
+  lp = true;
+  HideImageUI(false);
+  background(255);
+  LPark = loadImage(sketchPath("Images/")+"LunaPark.jpg");
+  LPark.loadPixels();
+  canDraw = true;
+}
+
+void darlingHarbour() {
+  dh = true;
+  HideImageUI(false);
+  background(255);
+  DHarbour = loadImage(sketchPath("Images/")+"DarlingHarbour.jpg");
+  DHarbour.loadPixels();
+  canDraw = true;
+}
+
 void imageBack() {
   HideImageUI(true);
   background(255);
@@ -125,11 +160,15 @@ void HideImageUI(boolean back) {
     hb = false;
     oh = false;
     sh = false;
+    dh = false;
+    lp = false;
   }
   Building11.hide();
   HarbourBridge.hide();
   OperaHouse.hide();
   SydneyHarbour.hide();
+  DarlingHarbour.hide();
+  LunaPark.hide();
 }
 
 void DrawImage()
@@ -163,6 +202,10 @@ PImage imageReturn() {
     return Harbour;
   else if (sh)
     return Skyline;
+  else if (lp)
+    return LPark;
+  else if (dh)
+    return DHarbour;
   else
     return Opera;
 }

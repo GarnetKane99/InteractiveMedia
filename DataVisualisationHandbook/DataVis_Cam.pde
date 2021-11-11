@@ -9,14 +9,14 @@ Button Pixelate, GreyScale, Sepia, NoFilter, Invert, CameraBack;
 void setupCam() {
   CameraController = new ControlP5(this);
   drawBook();
+  cameraUI();
   String[] camsFound = Capture.list();
   if (camsFound.length == 0) {
-    //error message
+    cameraBack();
   } else {
     camCapture = new Capture(this, width/4, height/3, camsFound[0]);
     camCapture.start();
   }
-  cameraUI();
 }
 
 void cameraUI() {
@@ -125,7 +125,9 @@ void noFilter() {
 }
 
 void cameraBack() {
-  camCapture.stop();
+  if (camCapture != null) {
+    camCapture.stop();
+  }
   hideCameraUI();
   background(255);
   CameraMode = false;

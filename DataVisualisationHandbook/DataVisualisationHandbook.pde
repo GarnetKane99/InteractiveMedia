@@ -7,9 +7,8 @@ ControlFont calibri, Bahnschrift;
 PFont titleFont, Chunkeh, Chimken, Glossary, ImageChoose, ImageFont, BeatsBook, InstrumentsFont, AudioSelectorFont, 
   CamFilterFont, CamTitleFont, ColourPalette, DrawFont;
 
-boolean Menu = true, AudioMode = false, ImageMode = false, CameraMode = false, DrawingMode = false, IllusionMode = false;
-
-int numOne;
+boolean Menu = true, AudioMode = false, ImageMode = false, CameraMode = false, 
+  DrawingMode = false, IllusionMode = false, DataMode = false;
 
 void setup() {
   Controller = new ControlP5(this);
@@ -56,7 +55,7 @@ void showTitle() {
   text("My name is Jake. This is my project for Interactive Media. This project utilises", 250, height/2-150);
   text("data in various mediums for a (hopefully) more interesting experience.", 250, height/2-100);
   text("In this project, you will find things like:", 250, height/2);
-  text("- Image Manipulation", 250, height/2+50);
+  text("- Image Manipulation using a Random Walker Algorithm", 250, height/2+50);
   text("- Audio Synthesis", 250, height/2+100);
   text("- Data Visualisation from UTS research", 250, height/2+150);
   text("- and much more!", 250, height/2+200);
@@ -91,8 +90,11 @@ void draw() {
   if (DrawingMode) {
     drawingOnCanvas();
   }
-  if (IllusionMode){
-    illusionDraw(); 
+  if (IllusionMode) {
+    illusionDraw();
+  }
+  if (DataMode) {
+    drawData();
   }
 }
 
@@ -156,7 +158,7 @@ void drawBook() {
 
 void randomPages() {
   strokeWeight(1);
-  
+
   for (int i = 0; i < 50; i++) {
     int randX = (int)random(0, 50);
     int randYStart = (int)random(300, height-100);
